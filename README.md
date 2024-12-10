@@ -89,8 +89,9 @@ This setup requires the following things.
       4. Password: *empty*
    5. edit script.py
       1. check "mqtt_host" and "mqtt_port"
-      2. change "sensor.fuel_level" to actual MercedesME sensor name
-      3. change "sensor.adblue_level" to actual MercedesME sensor name
+      2. replace all "tbd" with actual sensor
+         1. change "sensor.fuel_level" to actual MercedesME sensor name
+         2. change "sensor.adblue_level" to actual MercedesME sensor name
 
 Success, that was all required to get your data transmitted from your Mercedes to any Victron Venus installation!
 
