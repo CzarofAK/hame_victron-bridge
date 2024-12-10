@@ -2,7 +2,7 @@ from homeassistant.components import mqtt as hamqtt
 import json
 import copy
 
-mqtt_host = venus.local
+mqtt_host = venus.local #or IP, if no DNS available
 mqtt_port = 1883
 
 clientid = hameservice
