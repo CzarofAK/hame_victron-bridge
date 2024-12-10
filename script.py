@@ -2,7 +2,7 @@ from homeassistant.components import mqtt as hamqtt
 import json
 import copy
 
-mqtt_host = "venus.local"
+mqtt_host = "venus.local" #or IP, if no DNS available
 mqtt_port = 1883
 
 clientid = "hameservice"
@@ -37,16 +37,16 @@ def writeValue(portalId, deviceId, key, value):
     log.debug("{} = {}".format(topic, value ) )
     hass.components.mqtt.publish(hass, topic, json.dumps({ "value": value }))
 
-#Trigger bei laden vom script
+#Trigger at loading of the script
 @time_trigger
 def run_on_startup_or_reload():
     log.info("hameservice is loaded")
     hass.components.mqtt.publish(hass, "device/{}/Status".format(clientid), json.dumps(unregister))
     hass.components.mqtt.publish(hass, "device/{}/Status".format(clientid), json.dumps(registration))
-    dataDiesel["Level"] = state.get("sensor.nw19939_fuel_level")
-    dataAdBlue["Level"] = state.get("sensor.nw19939_adblue_level")
+    dataDiesel["Level"] = state.get("sensor.tbd_fuel_level")
+    dataAdBlue["Level"] = state.get("sensor.tbd_adblue_level")
 
-@time_trigger('period(300s)')
+@time_trigger('period(300s)') #this prevents a warning in VenusOS if the Car has been parked for a longer period (no value change = no transmit)
 
 @mqtt_trigger("device/hameservice/DBus")
 def on_message_dbus(payload, topic):
@@ -90,14 +90,14 @@ fields:
     log.info("testCerbo " + action)
     hass.components.mqtt.publish(hass, "simuvalue/hameservice/Diesel", action)
 
-@state_trigger("sensor.nw19939_fuel_level")
-def nw19939_fuel_change(value=None):
-    log.info("nw19939_fuel_change " + value)
+@state_trigger("sensor.tbd_fuel_level")
+def tbd_fuel_change(value=None):
+    log.info("tbd_fuel_change " + value)
     dataDiesel["Level"] = value
     writeValue(portalId, dataDiesel["deviceId"], "Level", dataDiesel.get("Level"))
 
-@state_trigger("sensor.nw19939_adblue_level")
-def nw19939_adblue_change(value=None):
-    log.info("nw19939_adblue_level " + value)
+@state_trigger("sensor.tbd_adblue_level")
+def tbd_adblue_change(value=None):
+    log.info("tbd_adblue_level " + value)
     dataAdBlue["Level"] = value
     writeValue(portalId, dataAdBlue["deviceId"], "Level", dataAdBlue.get("Level"))
