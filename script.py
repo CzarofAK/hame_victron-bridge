@@ -46,7 +46,10 @@ def run_on_startup_or_reload():
     dataDiesel["Level"] = state.get("sensor.tbd_fuel_level")
     dataAdBlue["Level"] = state.get("sensor.tbd_adblue_level")
 
-@time_trigger('period(300s)') #this prevents a warning in VenusOS if the Car has been parked for a longer period (no value change = no transmit)
+@time_trigger('period(now + 1m, 1m)')
+def on_time_trigger():
+    log.info("timmer called")
+    writeValue(portalId, dataDiesel["deviceId"], "Level", dataDiesel.get("Level"))
 
 @mqtt_trigger("device/hameservice/DBus")
 def on_message_dbus(payload, topic):
