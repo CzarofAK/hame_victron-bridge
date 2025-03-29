@@ -36,14 +36,14 @@ dataAdBlue = {
 def writeValue(portalId, deviceId, key, value):
     topic = "W/{}/tank/{}/{}".format(portalId, deviceId, key)
     log.debug("{} = {}".format(topic, value ) )
-    hass.components.mqtt.publish(hass, topic, json.dumps({ "value": value }))
+    async_publish(hass, topic, json.dumps({ "value": value }))
 
 #Trigger at loading of the script
 @time_trigger
 def run_on_startup_or_reload():
     log.info("hameservice is loaded")
-    hass.components.mqtt.publish(hass, "device/{}/Status".format(clientid), json.dumps(unregister))
-    hass.components.mqtt.publish(hass, "device/{}/Status".format(clientid), json.dumps(registration))
+    async_publish(hass, "device/{}/Status".format(clientid), json.dumps(unregister))
+    async_publish(hass, "device/{}/Status".format(clientid), json.dumps(registration))
     dataDiesel["Level"] = state.get("sensor.tbd_fuel_level")
     dataAdBlue["Level"] = state.get("sensor.tbd_adblue_level")
 
