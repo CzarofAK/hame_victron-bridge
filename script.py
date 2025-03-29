@@ -1,4 +1,5 @@
 from homeassistant.components import mqtt as hamqtt
+from homeassistant.components.mqtt import async_publish
 import json
 import copy
 
@@ -91,7 +92,7 @@ fields:
         required: true
 """
     log.info("testCerbo " + action)
-    hass.components.mqtt.publish(hass, "simuvalue/hameservice/Diesel", action)
+    async_publish(hass, "simuvalue/hameservice/Diesel", action)
 
 @state_trigger("sensor.tbd_fuel_level")
 def tbd_fuel_change(value=None):
