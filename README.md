@@ -1,6 +1,6 @@
 
-This Repo is obsolete.
-To send MercedesME information to Victron, utilize the HA integration "https://github.com/ReneNulschDE/mbapi2020", MQTT and NodeRed in Venus Large OS.
+***This Repo is obsolete.***
+***To send MercedesME information to Victron, utilize the HA integration "https://github.com/ReneNulschDE/mbapi2020", MQTT and NodeRed in Venus Large OS.***
 
 
 
